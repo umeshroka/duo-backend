@@ -1,0 +1,183 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider  = "postgresql"
+    url       = env("DATABASE_URL")
+    directUrl = env("DIRECT_URL")
+}
+
+model User {
+    id             String   @id @default(uuid())
+    email          String   @unique
+    hashedPassword String
+    firstName      String?
+    lastName       String?
+    phoneNumber    String?
+    createdAt      DateTime @default(now())
+    updatedAt      DateTime @updatedAt
+
+    aiArtworks AiArtwork[]
+    enquiries  Enquiry[]
+}
+
+model Artist {
+    id          String   @id @default(uuid())
+    name        String
+    bio         String   @db.Text
+    about       String   @db.Text
+    nationality String
+    birthYear   Int?
+    deathYear   Int?
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+
+    artworks      Artwork[]
+    mediaArticles MediaArticle[]
+}
+
+model MediaArticle {
+    id        String    @id @default(uuid())
+    title     String?
+    source    String?
+    url       String?
+    imageUrl  String?
+    content   String?   @db.Text
+    date      DateTime?
+    artistId  String
+    artist    Artist    @relation(fields: [artistId], references: [id])
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+}
+
+enum ArtworkMedium {
+    PAPER
+    SILK
+}
+
+enum ArtworkCategory {
+    PAINTING
+    CALLIGRAPHY
+}
+
+enum MountingMethod {
+    SCROLL
+    FRAME
+    BOARD
+    UNMOUNTED
+}
+
+model Artwork {
+    id              String           @id @default(uuid())
+    title           String
+    description     String?          @db.Text
+    longDescription String?          @db.Text
+    imageUrl        String
+    medium          ArtworkMedium?
+    category        ArtworkCategory?
+    mounting        MountingMethod?
+    heightCm        Float?
+    widthCm         Float?
+    year            Int?
+    price           Float? // null if not for sale
+    isfeatured      Boolean          @default(false)
+    createdAt       DateTime         @default(now())
+    updatedAt       DateTime         @updatedAt
+
+    artistId String
+    artist   Artist @relation(fields: [artistId], references: [id])
+
+    additionalTags String[]
+}
+
+model Editorial {
+    id          String   @id @default(uuid())
+    title       String
+    content     String   @db.Text
+    imageUrl    String
+    author      String
+    publishedAt DateTime @default(now())
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+
+    tags String[]
+}
+
+enum MasterclassType {
+    INDIVIDUAL
+    GROUP
+    CORPORATE
+}
+
+model Masterclass {
+    id          String          @id @default(uuid())
+    title       String
+    description String          @db.Text
+    imageUrl    String?
+    type        MasterclassType
+    createdAt   DateTime        @default(now())
+    updatedAt   DateTime        @updatedAt
+}
+
+enum ServiceType {
+    COMMISSION
+    CONSULTATION
+    AUTHENTICATION
+    APPRAISAL
+    RESTORATION
+}
+
+model Service {
+    id          String      @id @default(uuid())
+    title       String
+    description String      @db.Text
+    imageUrl    String?
+    type        ServiceType
+    createdAt   DateTime    @default(now())
+    updatedAt   DateTime    @updatedAt
+}
+
+enum EnquiryType {
+    SERVICE
+    MASTERCLASS
+    GENERAL
+}
+
+model Enquiry {
+    id              String           @id @default(uuid())
+    userId          String
+    user            User             @relation(fields: [userId], references: [id])
+    subject         String
+    message         String           @db.Text
+    enquiryType     EnquiryType
+    serviceType     ServiceType?
+    masterclassType MasterclassType?
+    createdAt       DateTime         @default(now())
+}
+
+enum ArtworkType {
+    CALLIGRAPHY_ONLY
+    PAINTING_ONLY
+    PAINTING_WITH_CALLIGRAPHY
+}
+
+model AiArtwork {
+    id     String @id @default(uuid())
+    userId String
+    user   User   @relation(fields: [userId], references: [id])
+    artworkType ArtworkType
+    subjectPrompt String @db.Text
+
+    calligraphyStyle String?
+    paintingStyle    String?
+    dynasty          String?
+    technique        String?
+
+    fullPrompt String   @db.Text
+    imageUrl   String
+    createdAt  DateTime @default(now())
+    updatedAt  DateTime @updatedAt
+}
+
+

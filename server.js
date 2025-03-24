@@ -12,13 +12,6 @@ const authRouter = require('./controllers/auth');
 const usersRouter = require('./controllers/users');
 const logsRouter = require("./controllers/logs.js");
 
-// Connect to MongoDB
-mongoose.connect(process.env.MONGODB_URI);
-
-mongoose.connection.on('connected', () => {
-  console.log(`Connected to MongoDB ${mongoose.connection.name}.`);
-});
-
 // Middleware
 app.use(cors());
 app.use(express.json());
