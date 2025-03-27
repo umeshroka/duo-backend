@@ -30,6 +30,7 @@ model Artist {
     nationality String
     birthYear   Int?
     deathYear   Int?
+    isFeatured  Boolean @default(false)
     createdAt   DateTime @default(now())
     updatedAt   DateTime @updatedAt
 
@@ -54,6 +55,7 @@ model MediaArticle {
 enum ArtworkMedium {
     PAPER
     SILK
+    REDPAPER
 }
 
 enum ArtworkCategory {
@@ -81,7 +83,7 @@ model Artwork {
     widthCm         Float?
     year            Int?
     price           Float? // null if not for sale
-    isfeatured      Boolean          @default(false)
+    isFeatured      Boolean          @default(false)
     createdAt       DateTime         @default(now())
     updatedAt       DateTime         @updatedAt
 
@@ -89,6 +91,7 @@ model Artwork {
     artist   Artist @relation(fields: [artistId], references: [id])
 
     additionalTags String[]
+    enquiries       Enquiry[]
 }
 
 model Editorial {
@@ -118,6 +121,7 @@ model Masterclass {
     type        MasterclassType
     createdAt   DateTime        @default(now())
     updatedAt   DateTime        @updatedAt
+    enquiries   Enquiry[]
 }
 
 enum ServiceType {
@@ -136,12 +140,13 @@ model Service {
     type        ServiceType
     createdAt   DateTime    @default(now())
     updatedAt   DateTime    @updatedAt
+    enquiries   Enquiry[]
 }
 
 enum EnquiryType {
     SERVICE
     MASTERCLASS
-    GENERAL
+    ARTWORK
 }
 
 model Enquiry {
@@ -151,8 +156,16 @@ model Enquiry {
     subject         String
     message         String           @db.Text
     enquiryType     EnquiryType
-    serviceType     ServiceType?
-    masterclassType MasterclassType?
+
+    serviceId       String?
+    service         Service?         @relation(fields: [serviceId], references: [id])
+
+    masterclassId   String?
+    masterclass     Masterclass?     @relation(fields: [masterclassId], references: [id])
+    
+    artworkId       String?
+    artwork         Artwork?         @relation(fields: [artworkId], references: [id])
+    
     createdAt       DateTime         @default(now())
 }
 
