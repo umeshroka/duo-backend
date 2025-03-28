@@ -67,7 +67,7 @@ Duo is a platform for exploring and learning about traditional Chinese calligrap
 
 ## Technologies Used
 
-- Node.js & Express: API framework
+- **Node.js & Express**: API framework
 - PostgreSQL & Supabase: Database
 - Prisma ORM: Type-safe database access
 - Hugging Face API: AI art generation

@@ -30,6 +30,7 @@ app.use('/masterclasses', masterclassesRouter);
 app.use('/services', servicesRouter);
 app.use('/editorials', editorialsRouter);
 app.use('/playground', playgroundRouter);
+app.use('/enquiries', enquiriesRouter);
 
 // Start the server and listen on port 3000
 app.listen(3000, () => {
