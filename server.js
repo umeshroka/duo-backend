@@ -12,8 +12,10 @@ const artworksRouter = require('./controllers/artworks');
 const masterclassesRouter = require('./controllers/masterclasses');
 const servicesRouter = require('./controllers/services');
 const editorialsRouter = require('./controllers/editorials');
-const enquiriesRouter = require('./controllers/enquiries');
 const playgroundRouter = require('./controllers/playground');
+const artworkEnquiryRouter = require('./controllers/artworkEnquiry.js');
+const serviceEnquiryRouter = require('./controllers/serviceEnquiry');
+const masterclassEnquiryRouter = require('./controllers/masterclassEnquiry');
 
 const app = express();
 
@@ -30,7 +32,9 @@ app.use('/masterclasses', masterclassesRouter);
 app.use('/services', servicesRouter);
 app.use('/editorials', editorialsRouter);
 app.use('/playground', playgroundRouter);
-app.use('/enquiries', enquiriesRouter);
+app.use('/artwork-enquiries', artworkEnquiryRouter);
+app.use('/service-enquiries', serviceEnquiryRouter);
+app.use('/masterclass-enquiries', masterclassEnquiryRouter);
 
 // Start the server and listen on port 3000
 app.listen(3000, () => {

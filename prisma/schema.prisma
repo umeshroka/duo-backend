@@ -17,8 +17,10 @@ model User {
     phoneNumber    String?
     createdAt      DateTime @default(now())
 
-    aiArtworks AiArtwork[]
-    enquiries  Enquiry[]
+    aiArtworks           AiArtwork[]
+    artworkEnquiries     ArtworkEnquiry[]
+    serviceEnquiries     ServiceEnquiry[]
+    masterclassEnquiries MasterclassEnquiry[]
 }
 
 model Artist {
@@ -29,7 +31,7 @@ model Artist {
     nationality String
     birthYear   Int?
     deathYear   Int?
-    isFeatured  Boolean @default(false)
+    isFeatured  Boolean  @default(false)
     createdAt   DateTime @default(now())
 
     artworks      Artwork[]
@@ -50,7 +52,7 @@ model MediaArticle {
 }
 
 enum ArtworkMedium {
-    Paper   
+    Paper
     Silk
     Redpaper
 }
@@ -86,8 +88,8 @@ model Artwork {
     artistId String
     artist   Artist @relation(fields: [artistId], references: [id])
 
-    additionalTags String[]
-    enquiries       Enquiry[]
+    additionalTags   String[]
+    artworkEnquiries ArtworkEnquiry[]
 }
 
 model Editorial {
@@ -102,78 +104,81 @@ model Editorial {
     tags String[]
 }
 
-enum MasterclassType {
-    INDIVIDUAL
-    GROUP
-    CORPORATE
-}
-
 model Masterclass {
-    id          String          @id @default(uuid())
-    title       String
-    description String          @db.Text
-    imageUrl    String?
-    type        MasterclassType
-    createdAt   DateTime        @default(now())
-    enquiries   Enquiry[]
+    id                   String               @id @default(uuid())
+    title                String
+    description          String               @db.Text
+    imageUrl             String?
+    createdAt            DateTime             @default(now())
+    masterclassEnquiries MasterclassEnquiry[]
 }
 
 enum ServiceType {
-    COMMISSION
-    CONSULTATION
-    AUTHENTICATION
-    APPRAISAL
-    RESTORATION
+    Commission
+    Consultation
+    Authentication
+    Appraisal
+    Restoration
 }
 
 model Service {
-    id          String      @id @default(uuid())
-    title       String
-    description String      @db.Text
-    imageUrl    String?
-    type        ServiceType
-    createdAt   DateTime    @default(now())
-    enquiries   Enquiry[]
+    id               String           @id @default(uuid())
+    title            String
+    description      String           @db.Text
+    imageUrl         String?
+    type             ServiceType
+    createdAt        DateTime         @default(now())
+    serviceEnquiries ServiceEnquiry[]
 }
 
-enum EnquiryType {
-    SERVICE
-    MASTERCLASS
-    ARTWORK
+model ArtworkEnquiry {
+    id        String   @id @default(uuid())
+    userId    String
+    user      User     @relation(fields: [userId], references: [id])
+    subject   String
+    message   String   @db.Text
+    artworkId String
+    artwork   Artwork  @relation(fields: [artworkId], references: [id])
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 }
 
-model Enquiry {
-    id              String           @id @default(uuid())
-    userId          String
-    user            User             @relation(fields: [userId], references: [id])
-    subject         String
-    message         String           @db.Text
-    enquiryType     EnquiryType
+model ServiceEnquiry {
+    id        String   @id @default(uuid())
+    userId    String
+    user      User     @relation(fields: [userId], references: [id])
+    subject   String
+    message   String   @db.Text
+    serviceId String
+    service   Service  @relation(fields: [serviceId], references: [id])
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
 
-    serviceId       String?
-    service         Service?         @relation(fields: [serviceId], references: [id])
-
-    masterclassId   String?
-    masterclass     Masterclass?     @relation(fields: [masterclassId], references: [id])
-    
-    artworkId       String?
-    artwork         Artwork?         @relation(fields: [artworkId], references: [id])
-
-    createdAt       DateTime         @default(now())
+model MasterclassEnquiry {
+    id            String      @id @default(uuid())
+    userId        String
+    user          User        @relation(fields: [userId], references: [id])
+    subject       String
+    message       String      @db.Text
+    masterclassId String
+    masterclass   Masterclass @relation(fields: [masterclassId], references: [id])
+    selectedType  String
+    createdAt     DateTime    @default(now())
+    updatedAt     DateTime    @updatedAt
 }
 
 enum ArtworkType {
-    CALLIGRAPHY_ONLY
-    PAINTING_ONLY
-    PAINTING_WITH_CALLIGRAPHY
+    Calligraphy
+    Painting_With_Calligraphy
 }
 
 model AiArtwork {
-    id     String @id @default(uuid())
-    userId String
-    user   User   @relation(fields: [userId], references: [id])
-    artworkType ArtworkType
-    subjectPrompt String @db.Text
+    id            String      @id @default(uuid())
+    userId        String
+    user          User        @relation(fields: [userId], references: [id])
+    artworkType   ArtworkType
+    subjectPrompt String      @db.Text
 
     calligraphyStyle String?
     paintingStyle    String?
@@ -184,5 +189,3 @@ model AiArtwork {
     imageUrl   String
     createdAt  DateTime @default(now())
 }
-
-
