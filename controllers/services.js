@@ -13,23 +13,4 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.get("/:id", async (req, res) => {
-  try {
-    const service = await prisma.service.findUnique({
-      where: {
-        id: req.params.id,
-      },
-    });
-
-    if (!service) {
-      return res.status(404).json({ error: "Service not found" });
-    }
-
-    res.status(200).json(service);
-  } catch (err) {
-    console.error("Error fetching service:", err);
-    res.status(500).json({ error: "Failed to fetch service" });
-  }
-});
-
 module.exports = router;
