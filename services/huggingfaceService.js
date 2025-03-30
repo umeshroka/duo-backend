@@ -60,18 +60,6 @@ function createStructuredPrompt({
     if (technique) {
       basePrompt += `, ${technique} technique`;
     }
-  } else if (artworkType === "PAINTING_ONLY") {
-    basePrompt = `Traditional Chinese ${
-      paintingStyle || "landscape"
-    } painting, "${subjectPrompt}", detailed brush strokes, ink wash on rice paper`;
-
-    if (dynasty) {
-      basePrompt += `, ${dynasty} dynasty style`;
-    }
-
-    if (technique) {
-      basePrompt += `, ${technique} technique`;
-    }
   } else if (artworkType === "PAINTING_WITH_CALLIGRAPHY") {
     basePrompt = `Traditional Chinese ${
       paintingStyle || "landscape"
