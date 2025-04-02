@@ -33,6 +33,9 @@ router.post("/sign-up", async (req, res) => {
     const payload = {
       userId: user.id,
       email: user.email,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      phoneNumber: user.phoneNumber,
     };
 
     const token = jwt.sign({ payload }, process.env.JWT_SECRET, {
@@ -75,6 +78,9 @@ router.post("/sign-in", async (req, res) => {
     const payload = {
       userId: user.id,
       email: user.email,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      phoneNumber: user.phoneNumber
     };
 
     const token = jwt.sign({ payload }, process.env.JWT_SECRET, {
