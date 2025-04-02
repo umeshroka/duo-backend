@@ -16,6 +16,7 @@ const playgroundRouter = require('./controllers/playground');
 const artworkEnquiryRouter = require('./controllers/artworkEnquiry.js');
 const serviceEnquiryRouter = require('./controllers/serviceEnquiry');
 const masterclassEnquiryRouter = require('./controllers/masterclassEnquiry');
+const usersRouter = require('./controllers/users');
 
 const app = express();
 
@@ -35,6 +36,11 @@ app.use('/playground', playgroundRouter);
 app.use('/artwork-enquiries', artworkEnquiryRouter);
 app.use('/service-enquiries', serviceEnquiryRouter);
 app.use('/masterclass-enquiries', masterclassEnquiryRouter);
+app.use('/users', usersRouter);
+
+app.get('/', (_req, res) => {
+  res.send('Duo API is running!');
+});
 
 // Start the server and listen on port 3000
 app.listen(3000, () => {
