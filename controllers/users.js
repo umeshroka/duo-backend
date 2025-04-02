@@ -38,7 +38,7 @@ router.put("/profile", verifyToken, async (req, res) => {
     const { firstName, lastName, phoneNumber } = req.body;
 
     // Validate the request
-    if (req.body.hashedPassword || req.body.id || req.body.email) {
+    if (req.body.hashedPassword || req.body.id) {
       return res
         .status(400)
         .json({ error: "Invalid fields in update request" });
