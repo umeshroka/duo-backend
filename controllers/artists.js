@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const prisma = require("../lib/prisma");
 
-// GET single featured artist with their featured artwork for homepage
 router.get("/featured", async (req, res) => {
     try {
       const featuredArtists = await prisma.artist.findFirst({
@@ -30,7 +29,6 @@ router.get("/featured", async (req, res) => {
     }
   });
 
-// GET all artists with one featured artwork each
 router.get("/", async (req, res) => {
   try {
     const artists = await prisma.artist.findMany({
@@ -51,7 +49,6 @@ router.get("/", async (req, res) => {
 });
 
 
-// GET single artist by ID with all their artworks and media articles
 router.get("/:id", async (req, res) => {
   try {
     const artist = await prisma.artist.findUnique({

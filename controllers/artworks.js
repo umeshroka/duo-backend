@@ -23,7 +23,6 @@ router.get("/", async (req, res) => {
   }
 });
 
-// GET single artwork by ID
 router.get("/:id", async (req, res) => {
   try {
     const artwork = await prisma.artwork.findUnique({

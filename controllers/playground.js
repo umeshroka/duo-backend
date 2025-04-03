@@ -18,7 +18,6 @@ router.post("/generate", verifyToken, async (req, res) => {
       return res.status(400).json({ error: "Artwork type and subject prompt are required" });
     }
 
-    // Create the structured prompt for image generation
     const fullPrompt = createStructuredPrompt({
       artworkType,
       subjectPrompt,
@@ -28,10 +27,8 @@ router.post("/generate", verifyToken, async (req, res) => {
       technique
     });
 
-    // Generate the image and get base64 data
     const imageData = await generateImage(fullPrompt);
 
-    // Return the generated image data directly
     res.status(200).json({ 
       success: true,
       imageData,

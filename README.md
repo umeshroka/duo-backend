@@ -1,20 +1,8 @@
 # Duo Backend
 
-Placeholder for screenshot/logo
-
 ## Description
 
-Duo is a platform for exploring and learning about traditional Chinese calligraphy and paintings. This MVP backend provides the API for browsing artworks, artists, masterclasses, and services along with simple enquiry functionality and AI artwork generation.
-
-## MVP Features
-
-- User Authentication: Simple JWT-based authentication
-- Artist Display: Browse artist profiles and their works
-- Artwork Showcase: Browse artworks
-- Educational Content: View masterclasses, editorial content, AI playground
-- Professional Services: View available art services
-- AI Art Generation: Create custom AI-generated artworks in traditional Chinese styles
-- Enquiry System: Submit enquiries about artworks, services or masterclasses
+Duo is a platform for exploring and learning about traditional Chinese calligraphy and paintings. This MVP backend provides the API for browsing artworks, artists, masterclasses, and professional services along with enquiry functionality and AI-powered artwork generation in traditional Chinese styles.
 
 ## API Endpoints
 
@@ -22,10 +10,15 @@ Duo is a platform for exploring and learning about traditional Chinese calligrap
 - `POST /auth/sign-up`: Register a new user
 - `POST /auth/sign-in`: Authenticate a user and receive JWT token
 
+### User Management
+- `GET /users/profile`: Get the authenticated user's profile
+- `PUT /users/profile`: Update the authenticated user's profile
+- `DELETE /users/profile`: Delete the authenticated user's profile
+
 ### Artists
-- `GET /artists`: Get all artists
-- `GET /artists/featured`: Get featured artists
-- `GET /artists/:id`: Get a specific artist details
+- `GET /artists`: Get all artists with their featured artwork
+- `GET /artists/featured`: Get featured artists with their featured artwork
+- `GET /artists/:id`: Get a specific artist with their artworks and media articles
 
 ### Artworks
 - `GET /artworks`: Get all artworks 
@@ -33,57 +26,36 @@ Duo is a platform for exploring and learning about traditional Chinese calligrap
 
 ### Masterclasses
 - `GET /masterclasses`: Get all masterclasses
-- `GET /masterclasses/:id`: Get a specific masterclass details
 
 ### Services
 - `GET /services`: Get all services
-- `GET /services/:id`: Get a specific service details
 
 ### Editorials
-- `GET /editorials`: Get all editorials with optional filtering
+- `GET /editorials`: Get all editorials
 - `GET /editorials/:id`: Get a specific editorial
 
 ### Enquiries (Protected Routes)
-- `POST /enquiries`: Create a new enquiry
+- `POST /artwork-enquiries`: Create a new enquiry about an artwork
+- `POST /service-enquiries`: Create a new enquiry about a service
+- `POST /masterclass-enquiries`: Create a new enquiry about a masterclass
 
 ### AI Artwork Generation (Protected Routes)
-- `POST /playground/generate`: Generate new AI artwork
+- `POST /playground/generate`: Generate new AI artwork based on specified parameters
 
-## Project Planning 
+## Front-end Github Repo 
 
-- [Project planning link] : 
-
-## Github Repo 
-
-- [Front-end GitHub repo link] : 
-- [Back-end GitHub repo link] : 
+- Front-end GitHub repo link : https://github.com/umeshroka/duo-frontend
 
 ## Deployed App Link
 
-- [Deployed front-end project link] : 
-- [Deployed back-end project link] : 
+- Deployed back-end project link : https://duo-backend-production.up.railway.app/
 
-## Attributions
+## Backend Technologies Used
 
-## Technologies Used
+- **Node.js & Express**: Backend & API framework
+- **PostgreSQL & Supabase & Prsima ORM**: Database
+- **Hugging Face API**: AI art generation
+- **Cloudinary**: Media storage for artwork images
 
-- **Node.js & Express**: API framework
-- PostgreSQL & Supabase: Database
-- Prisma ORM: Type-safe database access
-- Hugging Face API: AI art generation
-- Cloudinary: Media storage for artwork images
 
-## Stretch Goals
 
-- Admin dashboard and routes for content management to post,put,delete 
-- User dashboard to view past enquiries and saved artworks
-- Payment processing integration i.e. Stripe
-- Multi-language support
-- Search functionality
-- Real-time notifications for enquires to admin
-
-## Reflections
-
-### Favourite Code
-
-### Can do better

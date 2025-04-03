@@ -3,7 +3,6 @@ const router = express.Router();
 const prisma = require("../lib/prisma");
 const verifyToken = require("../middleware/verify-token");
 
-// GET user profile
 router.get("/profile", verifyToken, async (req, res) => {
   try {
     const userId = req.user.userId;
@@ -31,7 +30,6 @@ router.get("/profile", verifyToken, async (req, res) => {
   }
 });
 
-// Update user profile
 router.put("/profile", verifyToken, async (req, res) => {
   try {
     const userId = req.user.userId;
@@ -44,7 +42,6 @@ router.put("/profile", verifyToken, async (req, res) => {
         .json({ error: "Invalid fields in update request" });
     }
 
-    // Update user profile
     const updatedUser = await prisma.user.update({
       where: { id: userId },
       data: {
@@ -68,23 +65,19 @@ router.put("/profile", verifyToken, async (req, res) => {
   }
 });
 
-// Delete user account
 router.delete("/profile", verifyToken, async (req, res) => {
   try {
     const userId = req.user.userId;
 
-    // Delete all user related data
-    // This needs to be done in a transaction to ensure all data is deleted
+
     await prisma.$transaction([
-      // Delete all enquiries associated with the user
+
       prisma.artworkEnquiry.deleteMany({ where: { userId } }),
       prisma.serviceEnquiry.deleteMany({ where: { userId } }),
       prisma.masterclassEnquiry.deleteMany({ where: { userId } }),
 
-      // Delete all AI artworks associated with the user
       prisma.aiArtwork.deleteMany({ where: { userId } }),
 
-      // Finally, delete the user account
       prisma.user.delete({ where: { id: userId } }),
     ]);
 

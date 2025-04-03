@@ -3,7 +3,6 @@ const router = express.Router();
 const prisma = require("../lib/prisma");
 const verifyToken = require("../middleware/verify-token");
 
-// Create a new service enquiry (protected route)
 router.post("/", verifyToken, async (req, res) => {
   try {
     const { 
@@ -12,14 +11,12 @@ router.post("/", verifyToken, async (req, res) => {
       serviceId
     } = req.body;
 
-    // Validation
     if (!subject || !message || !serviceId) {
       return res.status(400).json({ 
         error: "Subject, message, and service ID are required" 
       });
     }
 
-    // Check if the service exists
     const service = await prisma.service.findUnique({
       where: { id: serviceId }
     });
@@ -28,7 +25,6 @@ router.post("/", verifyToken, async (req, res) => {
       return res.status(404).json({ error: "Service not found" });
     }
 
-    // Create the enquiry
     const enquiry = await prisma.serviceEnquiry.create({
       data: {
         userId: req.user.userId,

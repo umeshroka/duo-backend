@@ -22,10 +22,8 @@ async function generateImage(prompt) {
       throw new Error(`Error: ${response.status} - ${await response.text()}`);
     }
 
-    // Get the image data as a buffer
     const imageBuffer = await response.buffer();
 
-    // Convert buffer to base64
     const base64Image = `data:image/png;base64,${imageBuffer.toString(
       "base64"
     )}`;

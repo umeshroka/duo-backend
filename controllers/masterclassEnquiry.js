@@ -3,7 +3,6 @@ const router = express.Router();
 const prisma = require("../lib/prisma");
 const verifyToken = require("../middleware/verify-token");
 
-// Create a new enquiry (protected route)
 router.post("/", verifyToken, async (req, res) => {
   try {
     const { 
@@ -13,14 +12,12 @@ router.post("/", verifyToken, async (req, res) => {
       selectedType
     } = req.body;
 
-    // Validation
     if (!subject || !message || !masterclassId || !selectedType) {
       return res.status(400).json({ 
         error: "Subject, message, masterclass ID, and selected type are required" 
       });
     }
 
-   // Check if the masterclass exists and supports the selected type
    const masterclass = await prisma.masterclass.findUnique({
     where: { id: masterclassId }
   });
@@ -36,7 +33,6 @@ router.post("/", verifyToken, async (req, res) => {
     });
   }
 
-     // Create the enquiry
      const enquiry = await prisma.masterclassEnquiry.create({
       data: {
         userId: req.user.userId,

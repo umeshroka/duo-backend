@@ -3,7 +3,6 @@ const router = express.Router();
 const prisma = require("../lib/prisma");
 const verifyToken = require("../middleware/verify-token");
 
-// Create a new artwork enquiry (protected route)
 router.post("/", verifyToken, async (req, res) => {
   try {
     const { 
@@ -12,14 +11,12 @@ router.post("/", verifyToken, async (req, res) => {
       artworkId
     } = req.body;
 
-    // Validation
     if (!subject || !message || !artworkId) {
       return res.status(400).json({ 
         error: "Subject, message, and artwork ID are required" 
       });
     }
 
-    // Check if the artwork exists
     const artwork = await prisma.artwork.findUnique({
       where: { id: artworkId }
     });
@@ -28,7 +25,6 @@ router.post("/", verifyToken, async (req, res) => {
       return res.status(404).json({ error: "Artwork not found" });
     }
 
-    // Create the enquiry
     const enquiry = await prisma.artworkEnquiry.create({
       data: {
         userId: req.user.userId,
