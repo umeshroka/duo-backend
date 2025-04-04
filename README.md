@@ -50,12 +50,18 @@ Duo is a platform for exploring and learning about traditional Chinese calligrap
 
 - Deployed back-end project link : https://duo-backend-production.up.railway.app/
 
-## Backend Technologies Used
+## Database Schema
 
-- **Node.js & Express**: Backend & API framework
-- **PostgreSQL & Supabase & Prsima ORM**: Database
-- **Hugging Face API**: AI art generation
-- **Cloudinary**: Media storage for artwork images
+- Users
+- Artists
+- Artworks
+- Masterclasses
+- Services
+- Editorials
+- Enquiries (Artwork, Service, Masterclass)
+- AI-generated Artworks
+
+
 
 
 
